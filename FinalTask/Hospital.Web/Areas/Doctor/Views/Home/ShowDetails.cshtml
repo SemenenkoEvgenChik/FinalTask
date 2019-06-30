@@ -27,7 +27,7 @@ else
         <div class="card  d-inline-block m-1" style="width: 34rem;">
             <div class="card-body">
                 <h4 class="card-title text-center">История болезни</h4>
-                @if (String.IsNullOrEmpty(illness.FinalDiagnosis) && (!String.IsNullOrEmpty(illness.InitialDiagnosis)))
+                @if (String.IsNullOrEmpty(illness.FinalDiagnosis))
                 {
                     @Html.ActionLink("Скачать справку", "CreateCertificate", new { area = "Doctor", id=illness.Id}, new { @class = "btn btn-light w-100 disabled" })
                 }
@@ -178,6 +178,8 @@ else
                 <div id="modal-body" class="modal-body">
 
                     <input type="hidden" id="Id2" name="Id" />
+                    <input type="hidden" id="PatientId" name="PatientId" value="@Model.Id" />
+
                     <div class="form-group">
                         <label for="comment">Результат лечения:</label>
                         <textarea class="form-control" rows="3" id="FinalDiagnosis" name="FinalDiagnosis"></textarea>

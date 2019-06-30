@@ -1,0 +1,32 @@
+﻿@model Hospital.BusinessLogic.ViewModels.PatientViewModel
+@using Hospital.BusinessLogic.Models.ViewEnums
+
+@{
+    ViewBag.Title = "RecoveredPatients";
+    Layout = "~/Areas/Doctor/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between my-2">
+    <div class="d-inline">
+        <input type="text" id="Name" name="Name" placeholder="Имя" class="form-control d-inline-block w-auto" />
+        <input type="text" id="Surname" name="Surname" placeholder="Фамилия" class="form-control d-inline-block w-auto" />
+        <input type="text" id="DateOfBirth" name="DateOfBirth" placeholder="Дата рождения" class="form-control d-inline-block w-auto" />
+    </div>
+    <div class="d-inline">
+        <div class="spinner-border justify-content-center align-items-center" role="status" id="spinner" style="display: none;">
+            <span class="sr-only"></span>
+        </div>
+        <input class="btn btn-secondary" type="button" value="Найти" onclick="searchPatients()" />
+    </div>
+</div>
+
+<div>
+    @{ var en = new EnumForSortPatients(); }
+    @Html.EnumDropDownListFor(m => en, new { onchange = "searchPatients(null,  this.value)", @class = "form-control" })
+</div>
+
+
+<div id="divSearchPatients">
+    @{ Html.RenderAction("ShowRecoveredPatients"); }
+</div>
+<script src="~/Areas/Doctor/Scripts/doctor.js" defer></script>

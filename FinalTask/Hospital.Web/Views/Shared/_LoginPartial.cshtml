@@ -1,27 +1,18 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    @*<form action="/Account/LogOff"></form>*@
     using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
 
         <span class="nav navbar-nav navbar-right">
-            @Html.ActionLink("Здравствуйте " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <span class="my-auto text-white">
+                @User.Identity.GetUserName()
+            </span>
             <span class="ml-3">
                 <input type="button" class="btn btn-warning" onclick="javascript:document.getElementById('logoutForm').submit()" value="Выйти" />
             </span>
         </span>
     }
 }
-@*else
-{
-    <div class="dropdown dropleft float-right">
-        <button type="button" class="btn btn-primary dropdown-toggle w-auto" data-toggle="dropdown">
-            Авторизация
-        </button>
-        <div id="dropdown" class="dropdown-menu">
-            <a class="dropdown-item" href="/Account/Login" id="loginLink">Выполнить вход</a>
-        </div>
-    </div>
-}*@
+

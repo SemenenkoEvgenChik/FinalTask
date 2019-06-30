@@ -12,6 +12,7 @@ namespace Hospital.BusinessLogic.Services.Interface
         void Create(PatientViewModel patient);
         void DoctorAssigning(DoctorAssigningViewModel doctorAssigningViewModel);
         PaginationViewModel<PatientViewModel> SearchPatient(PatientViewModel patient,int page,int size, int sortIndex,int doctorId);
+        PaginationViewModel<PatientViewModel> SearchRecoveredPatient(PatientViewModel patient,int page,int size, int sortIndex,int doctorId);
         void EstablishDiagnos(EstablishDiagnosisViewModel establishDiagnosisViewModel);
         int NumberOfRecords(Patient patient, int doctorId);
         int NumberOfRecordsForHospitalStaff(Patient patient);

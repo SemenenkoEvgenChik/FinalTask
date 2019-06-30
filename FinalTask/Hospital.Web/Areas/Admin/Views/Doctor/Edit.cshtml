@@ -5,14 +5,24 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("Edit", "Doctor", FormMethod.Post))
-{
-    @Html.EditorFor(x => x.Name, "Name");
-    @Html.EditorFor(x => x.Surname, "Surname");
-    @Html.EnumDropDownListFor(m => m.Specialty, "Выберите специальность", new { @class = "form-control d-inline-block w-auto", id = "Specialty" })
-    @Html.EditorFor(x => x.Expirience, "Expirience");
-    @Html.EnumDropDownListFor(m => m.Role, "Выберите должность", new { @class = "form-control d-inline-block w-auto" })
+<div class="row justify-content-center mt-5 pt-5">
+    <div class="col-md-5">
+        <h3 class="text-center">
+            Редактировать данные доктора
+        </h3>
+        <div class="modal-content justify-content-center align-items-center">
+            <div class="modal-body">
+                @using (Html.BeginForm("Edit", "Doctor", FormMethod.Post))
+                {
+                    @Html.TextBoxFor(x => x.Name,new { @class = "form-control mt-2 w-100", id ="newName",placeholder="Имя"});
+                    @Html.TextBoxFor(x => x.Surname,new { @class = "form-control mt-2 w-100", id ="newName",placeholder="Фамилия"});
+                    @Html.EnumDropDownListFor(m => m.Specialty, "Выберите специальность", new { @class = "form-control d-inline-block mt-2 w-100", id = "Specialty" })
+                    @Html.TextBoxFor(x => x.Expirience,new { @class = "form-control mt-2 w-100", id ="newName",placeholder="Опыт работы в месяцах"});
+                    @Html.EnumDropDownListFor(m => m.Role, "Выберите должность", new { @class = "form-control d-inline-block mt-2 w-100" })
 
-    <input type="submit" value="go"/>
-}
-
+                    <input type="submit" class="btn btn-secondary mt-2 w-100" value="Изменить" />
+                }
+            </div>
+        </div>
+    </div>
+    </div>

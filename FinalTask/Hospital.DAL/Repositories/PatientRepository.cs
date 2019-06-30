@@ -85,5 +85,30 @@ namespace Hospital.DAL.Repositories
 
             return result;
         }
+
+        public IEnumerable<Patient> SearchRecoveredPatient(Patient patient, int page, int size, int sortIndex, int doctorId)
+        {
+            Func<Patient, object> func = p => p.Id;
+            if (sortIndex == 1)
+            {
+                func = p => p.DateOfBirth;
+            }
+            if (sortIndex == 2)
+            {
+                func = p => p.Surname + p.Name;
+            }
+            var result = _context.Patients
+                .Where(s => doctorId == 0 || s.HistoryIllnesses.Where(i => i.DoctorId == doctorId).Count() > 0)
+                .Where(x =>
+                    (string.IsNullOrEmpty(patient.Name) || x.Name == patient.Name) &&
+                    (string.IsNullOrEmpty(patient.Surname) || x.Surname == patient.Surname) &&
+                    (patient.DateOfBirth.Equals(DateTime.MinValue) || x.DateOfBirth == patient.DateOfBirth)
+                )
+                .OrderBy(func)
+                .Skip((page - 1) * size)
+                .Take(size).ToList();
+
+            return result;
+        }
     }
 }

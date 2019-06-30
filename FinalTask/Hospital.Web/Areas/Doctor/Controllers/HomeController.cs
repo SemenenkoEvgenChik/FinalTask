@@ -22,11 +22,23 @@ namespace Hospital.Web.Areas.Doctor.Controllers
         {
             return View();
         }
+        public ActionResult RecoveredPatients()
+        {
+            return View();
+        }
         public ActionResult ShowPatients(PatientViewModel search, int page = 1, int size = 12, int sortIndex = 0)
         {
             var UserId = User.Identity.GetUserId();
             var doctorId = _doctorService.GetIdIdentityDoctor(UserId);
             var patients = _patientService.SearchPatient(search, page, size, sortIndex, doctorId);
+
+            return PartialView("_SearchPatient", patients);
+        }
+        public ActionResult ShowRecoveredPatients(PatientViewModel search, int page = 1, int size = 12, int sortIndex = 0)
+        {
+            var UserId = User.Identity.GetUserId();
+            var doctorId = _doctorService.GetIdIdentityDoctor(UserId);
+            var patients = _patientService.SearchRecoveredPatient(search, page, size, sortIndex, doctorId);
 
             return PartialView("_SearchPatient", patients);
         }

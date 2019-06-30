@@ -12,7 +12,7 @@
 
     $.ajax({
         type: "Post",
-        url: window.origin + '/Doctor/Home/ShowPatients',
+        url: window.origin + '/Doctor/Home/ShowRecoveredPatients',
         contentType: 'application/json; charset=utf-8;',
         data: JSON.stringify(request),
         dataType: 'html',

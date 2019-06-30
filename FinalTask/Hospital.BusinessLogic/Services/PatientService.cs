@@ -118,6 +118,18 @@ namespace Hospital.BusinessLogic.Services
         {
             return _db.Patients.CountForHospitalStaff(patient);
         }
+
+        public PaginationViewModel<PatientViewModel> SearchRecoveredPatient(PatientViewModel patient, int page, int size, int sortIndex, int doctorId)
+        {
+            var result = new PaginationViewModel<PatientViewModel>();
+            var map = _mapper.Map<PatientViewModel, Patient>(patient);
+            result.Data = _mapper.Map<IEnumerable<Patient>, IEnumerable<PatientViewModel>>(_db.Patients.SearchRecoveredPatient(map, page, size, sortIndex, doctorId));
+            result.PageInfo.PageNumber = page;
+            result.PageInfo.PageSize = size;
+            result.PageInfo.TotalItems = NumberOfRecords(map, doctorId);
+
+            return result;
+        }
     }
 }
 

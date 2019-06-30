@@ -134,11 +134,11 @@ namespace Hospital.BusinessLogic.Services
         public bool Edit(DoctorViewModel doctorViewModel)
         {
             var entity = _db.Doctors.GetById(doctorViewModel.Id);
-            entity.Name = doctorViewModel.Name;
-            entity.Surname = doctorViewModel.Surname;
-            entity.Role = (EnumForMedicRole)doctorViewModel.Role;
-            entity.Specialty = (ClassificationOfDoctors)doctorViewModel.Specialty;
-            entity.Expirience = doctorViewModel.Expirience;
+            entity.Name = (string.IsNullOrEmpty(doctorViewModel.Name)) ? entity.Name : doctorViewModel.Name;
+            entity.Surname = (string.IsNullOrEmpty(doctorViewModel.Surname))? entity.Surname : doctorViewModel.Surname;
+            entity.Role = ((EnumForMedicRole)doctorViewModel.Role==0)? entity.Role:(EnumForMedicRole)doctorViewModel.Role;
+            entity.Specialty = ((ClassificationOfDoctors)doctorViewModel.Specialty==0)? entity.Specialty : (ClassificationOfDoctors)doctorViewModel.Specialty;
+            entity.Expirience = (doctorViewModel.Expirience == 0 )? entity.Expirience : doctorViewModel.Expirience;
             _db.Save();
             return true;
         }
