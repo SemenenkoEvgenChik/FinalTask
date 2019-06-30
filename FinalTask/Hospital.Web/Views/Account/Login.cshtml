@@ -1,0 +1,43 @@
+﻿@using System.Web.Optimization
+@using Hospital.Web.Models
+@model LoginViewModel
+
+
+
+<div class="row justify-content-center mt-5 pt-5">
+    <div class="col-md-5">
+
+        <div class="panel-heading border-dark rounded-top p-2">
+            Log in
+        </div>
+        <div class="rounded-bottom border-dark border-top-0 pt-3 p-4">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <!-- username input -->
+                <div class="input-group mt-2 w-100">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text span-min-width">Username</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                <!-- password input -->
+                <div class="input-group mt-2 w-100">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text span-min-width">Password</span>
+                    </div>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <!-- confirm btn and register link -->
+                <div class="row mt-3">
+                    <div class="col md-6">
+                        <input type="submit" class="btn btn-dark btn-min-width" value="Log in" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

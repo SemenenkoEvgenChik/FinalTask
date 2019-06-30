@@ -1,0 +1,18 @@
+﻿@using Hospital.BusinessLogic.ViewModels
+@model DoctorViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Doctor", FormMethod.Post))
+{
+    @Html.EditorFor(x => x.Name, "Name");
+    @Html.EditorFor(x => x.Surname, "Surname");
+    @Html.EnumDropDownListFor(m => m.Specialty, "Выберите специальность", new { @class = "form-control d-inline-block w-auto", id = "Specialty" })
+    @Html.EditorFor(x => x.Expirience, "Expirience");
+    @Html.EnumDropDownListFor(m => m.Role, "Выберите должность", new { @class = "form-control d-inline-block w-auto" })
+
+    <input type="submit" value="go"/>
+}
+

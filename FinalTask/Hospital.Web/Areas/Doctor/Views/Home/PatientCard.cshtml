@@ -1,0 +1,40 @@
+﻿@using Hospital.BusinessLogic.ViewModels
+@model IEnumerable<MedicationForDoctorViewModel>
+@{
+    ViewBag.Title = "PatientCard";
+    Layout = "~/Areas/Doctor/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="d-flex flex-row justify-content-center align-items-center m-4" style="height: 100px;">
+        <div>
+            <h1 class="text-center">История болезни отсутствует!</h1>
+            <h2 class="text-center">Назначений не было!</h2>
+        </div>
+    </div>
+}
+else {
+<table class="table">
+    <thead>
+        <tr>
+            <th>Операции</th>
+            <th>Процедуры</th>
+            <th>Описание процедур</th>
+            <th>Дата назначения</th>
+            <th>Назначил</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var medication in Model)
+        {
+            <tr>
+                <td>@(medication.Operations ?? "Назначений не было")</td>
+                <td>@medication.Procedures</td>
+                <td>@medication.ProceduresDescription</td>
+                <td>@medication.DescriptionDate</td>
+                <td>@medication.Doctor.Name @medication.Doctor.Surname @medication.Doctor.Specialty</td>
+            </tr>
+        }
+</table>
+}

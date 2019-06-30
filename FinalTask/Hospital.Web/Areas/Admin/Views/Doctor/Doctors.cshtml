@@ -1,0 +1,77 @@
+﻿@model Hospital.BusinessLogic.ViewModels.DoctorViewModel
+@using Hospital.BusinessLogic.Models.ViewEnums
+
+@{
+    ViewBag.Title = "Doctors";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<script src="~/Areas/Admin/Scripts/doctors.js" defer></script>
+
+
+<div class="d-flex justify-content-between my-2">
+    <div class="d-inline">
+        <input type="text" id="Name" placeholder="Имя" class="form-control d-inline-block w-auto" />
+        <input type="text" id="Surname" placeholder="Фамилия" class="form-control d-inline-block w-auto" />
+        @Html.EnumDropDownListFor(m => m.Specialty, "Выберите специальность", new { @class = "form-control d-inline-block w-auto", id = "Specialty" })
+    </div>
+    <div class="d-inline">
+        <div class="spinner-border justify-content-center align-items-center" role="status" id="spinner" style="display: none;">
+            <span class="sr-only"></span>
+        </div>
+        <input class="btn btn-secondary" type="button" value="Найти" onclick="searchDoctors()" />
+        <input type="button" class="btn btn-secondary" data-toggle="modal" data-target="#RegistrationNewDoctor" value="Зарегистрировать доктора">
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="RegistrationNewDoctor" tabindex="-1" role="dialog" aria-labelledby="RegistrationNewDoctor" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content justify-content-center align-items-center">
+          
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RegistrationNewDoctorLabel">Регистрация нового доктора</h5>
+                    <button type="button" class="close w-auto" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="item">
+                        @Html.TextBoxFor(m => m.Name, new {@class = "form-control mt-2 w-100", id ="newName",placeholder="Имя"})
+                    </div>
+                    <div class="item">
+                        @Html.TextBoxFor(m => m.Surname, new {@class = "form-control mt-2 w-100", id ="newSurname",placeholder="Фамилия"})
+                    </div>
+                    <div class="item">
+                        @Html.TextBoxFor(m => m.Expirience,new {@class = "form-control mt-2 w-100",id = "newExpirience",type="number", min =0 ,max=50,placeholder="Опыт работы"})
+                    </div>
+
+                    <div class="item">
+                        @Html.EnumDropDownListFor(m => m.Specialty, "Выберите специальность", new { @class = "form-control mt-2 w-100", id = "newSpecialty"})
+                    </div>
+                    <div class="item">
+                        @Html.EnumDropDownListFor(m => m.Role, "Выберите должность", new { @class = "form-control mt-2 w-100",id ="newRole"})
+                    </div>
+                    <div class="item">
+                        @Html.TextBoxFor(m => m.Email, new {@class="form-control mt-2 w-100", id ="newEmail",placeholder="Email"})
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id ="addDoctorButton" class="btn btn-primary w-auto" value="Добавить" onclick="addDoctor()">
+                    <button type="button" class="btn btn-secondary w-auto" id="dataDismiss" data-dismiss="modal">Закрыть</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @{ var en = new EnumForSortDoctors(); }
+    @Html.EnumDropDownListFor(m => en, new { onchange = "searchDoctors(null,  this.value)", @class = "form-control" })
+</div>
+
+<div id="divSearch">
+    @{ Html.RenderAction("ShowDoctors"); }
+</div>
+
+

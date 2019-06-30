@@ -1,0 +1,29 @@
+﻿@model Hospital.BusinessLogic.ViewModels.PatientViewModel
+@using Hospital.BusinessLogic.Models.ViewEnums
+
+
+<div class="d-flex justify-content-between my-2">
+    <div class="d-inline">
+        <input type="text" id="Name" name="Name" placeholder="Name" class="form-control d-inline-block w-auto" />
+        <input type="text" id="Surname" name="Surname" placeholder="Surname" class="form-control d-inline-block w-auto" />
+        <input type="text" id="DateOfBirth" name="DateOfBirth" placeholder="DateOfBirth" class="form-control d-inline-block w-auto" />
+    </div>
+    <div class="d-inline">
+        <div class="spinner-border justify-content-center align-items-center" role="status" id="spinner" style="display: none;">
+            <span class="sr-only"></span>
+        </div>
+        <input class="btn btn-primary" type="button" value="Найти" onclick="searchPatients()" />
+        <input class="btn btn-primary" type="button" value="Зарегистрировать пациента" onclick="@("window.location.href='" + @Url.Action("CreatePatient", "Patient") + "'");" />
+    </div>
+</div>
+
+<div>
+    @{ var en = new EnumForSortPatients(); }
+    @Html.EnumDropDownListFor(m => en, new { onchange = "searchPatients(null,  this.value)", @class = "form-control" })
+</div>
+
+
+<div id="divSearchPatients">
+    @{ Html.RenderAction("ShowPatients"); }
+</div>
+<script src="~/Scripts/MyScripts/patient.js" defer></script>

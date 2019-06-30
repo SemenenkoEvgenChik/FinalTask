@@ -1,0 +1,54 @@
+﻿@using System.Web.Optimization;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Final Task</title>
+    @Styles.Render("~/Content")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="navbar-brand" href="/HospitalStaff/Home/Patients">
+                        <img src="~/Image/icon-hospital.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link align-middle" href="/HospitalStaff/Home/Patients">Пациенты <span class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="mx-auto order-0">
+            <span class="navbar-brand mx-auto">БОЛЬНИЦА</span>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    @Html.Partial("_LoginPartial")
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer class="fixed-bottom">
+            <p>&copy; @DateTime.Now.Year - Final Task Semenenko Eugene</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
+
+

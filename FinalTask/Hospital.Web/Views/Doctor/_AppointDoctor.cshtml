@@ -1,0 +1,30 @@
+﻿@using Hospital.BusinessLogic.ViewModels
+
+@model  IEnumerable<DoctorViewModel>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Expirience</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    @foreach (var docter in Model)
+    {
+        <tbody>
+            <tr>
+                <td scope="row">@docter.Name</td>
+                <td scope="row">@docter.Surname</td>
+                <td scope="row">@docter.Expirience</td>
+                <td>
+                    <input type="button" id="@docter.Id" onclick="assignDoctor(this)" value="Назначить" />
+                </td>
+            </tr>
+
+        </tbody>
+    }
+</table>

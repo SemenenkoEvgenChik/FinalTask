@@ -1,0 +1,37 @@
+﻿@model Hospital.BusinessLogic.ViewModels.DoctorViewModel
+@using Hospital.BusinessLogic.Models.ViewEnums
+
+@{
+    ViewBag.Title = "Doctors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/MyScripts/doctors.js" defer></script>
+
+<h2>Doctors</h2>
+
+<div class="d-flex justify-content-between my-2">
+    <div class="d-inline">
+        <input type="text" id="Name" placeholder="Name" class="form-control d-inline-block w-auto" />
+        <input type="text" id="Surname" placeholder="Surname" class="form-control d-inline-block w-auto" />
+        @Html.EnumDropDownListFor(m => m.Specialty, "Select specialty", new { @class = "form-control d-inline-block w-auto", id = "Specialty" })
+    </div>
+    <div class="d-inline">
+        <div class="spinner-border justify-content-center align-items-center" role="status" id="spinner" style="display: none;">
+            <span class="sr-only"></span>
+        </div>
+        <input class="btn btn-primary" type="button" value="Найти" onclick="searchDoctors()" />
+        <input class="btn btn-primary" type="button" value="Зарегистрировать доктора" onclick="@("window.location.href='" + @Url.Action("AddDoctor", "Doctor") + "'");" />
+
+    </div>
+</div>
+
+<div>
+    @{ var en = new EnumForSortDoctors(); }
+    @Html.EnumDropDownListFor(m => en, new { onchange = "searchDoctors(null,  this.value)", @class = "form-control" })
+</div>
+
+<div id="divSearch">
+    @{ Html.RenderAction("ShowDoctors"); }
+</div>
+
+

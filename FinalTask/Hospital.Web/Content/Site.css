@@ -1,0 +1,58 @@
+﻿body {
+    background-color: #c9ffe8;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*textarea,*/
+input,
+select {
+    max-width: 280px;
+}
+#formRegistr {
+background-color:white;
+}
+.image-container {
+    display: inline-block;
+    max-width: 100%;
+}
+button {
+    width: 50%;
+    box-sizing: border-box;
+}
+.span-min-width {
+    min-width: 100px;
+}
+
+.btn-min-width {
+    min-width: 130px;
+}
+
+.panel-heading {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #343a40;
+}
+
+.input-group-text {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #343a40;
+}
+
+.form-control {
+    border-color: #343a40;
+}
+
+.border-dark {
+    border: 1px solid;
+    border-color: #343a40;
+}
+.btn-light {
+    color: #ff1e1e;
+}

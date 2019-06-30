@@ -1,0 +1,36 @@
+﻿@using System.Web.Optimization;
+
+@model Hospital.Web.Models.RegisterViewModel
+
+
+<div  class="container p-5">
+    <div id="formRegistr" class="row justify-content-center align-items-center">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Создание новой учетной записи</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email,new { @class = "form-control", @placeholder = "Email" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "ConfirmPassword" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-10">
+                    <input type="submit" class="btn btn-primary" value="Регистрация" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

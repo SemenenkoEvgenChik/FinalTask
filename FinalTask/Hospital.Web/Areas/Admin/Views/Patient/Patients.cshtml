@@ -1,0 +1,64 @@
+﻿@model Hospital.BusinessLogic.ViewModels.PatientViewModel
+@using Hospital.BusinessLogic.Models.ViewEnums
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Patients";
+
+}
+<div class="d-flex justify-content-between my-2">
+    <div class="d-inline">
+        <input type="text" id="Name" name="Name" placeholder="Имя" class="form-control d-inline-block w-auto" />
+        <input type="text" id="Surname" name="Surname" placeholder="Фамилия" class="form-control d-inline-block w-auto" />
+        <input type="text" id="DateOfBirth" name="DateOfBirth" placeholder="Дата Рождения" class="form-control d-inline-block w-auto" />
+    </div>
+    <div class="d-inline">
+        <div class="spinner-border justify-content-center align-items-center" role="status" id="spinner" style="display: none;">
+            <span class="sr-only"></span>
+        </div>
+        <input class="btn btn-secondary w-auto" type="button" value="Найти" onclick="searchPatients()" />
+        <input type="button" class="btn btn-secondary w-auto" data-toggle="modal" data-target="#RegistrationNewPatient" value="Зарегистрировать пациента">
+    </div>
+</div>
+
+<div class="modal fade" id="RegistrationNewPatient" tabindex="-1" role="dialog" aria-labelledby="RegistrationNewPatient" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content justify-content-center align-items-center">
+           
+            <div class="modal-header">
+                <h5 class="modal-title" id="RegistrationNewPatientLabel">Регистрация нового пациента</h5>
+                <button type="button" class="close w-auto" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="item">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control mt-2 w-100", id = "patientName", placeholder = "Имя" })
+                </div>
+                <div class="item">
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control mt-2 w-100", id = "patientSurname", placeholder = "Фамилия" })
+                </div>
+                <div class="item">
+                    @Html.EditorFor(m => m.DateOfBirth, new { htmlAttributes = new { @class = "form-control mt-2 w-100", id = "patientDateOfBirth", placeholder = "Дата рождения" } })
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <input type="button" class="btn btn-secondary w-auto" value="Зарегестрировать" onclick="createPatient()">
+                <button type="button" class="btn btn-secondary w-auto" id="createPatientClose" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @{ var en = new EnumForSortPatients(); }
+    @Html.EnumDropDownListFor(m => en, new { onchange = "searchPatients(null,  this.value)", @class = "form-control" })
+</div>
+
+
+<div id="divSearchPatients">
+    @{ Html.RenderAction("ShowPatients"); }
+</div>
+<script src="~/Areas/Admin/Scripts/patient.js" defer></script>

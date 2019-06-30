@@ -1,0 +1,48 @@
+﻿@using Hospital.BusinessLogic.Pagination;
+@using Hospital.BusinessLogic.ViewModels;
+@using Hospital.Web.Helpers;
+
+@model PaginationViewModel<DoctorViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Специальность</th>
+            <th scope="col">Опыт работы</th>
+            <th scope="col">Количество пациентов</th>
+            <th scope="col">Должность</th>
+            <th scope="col"></th>
+
+        </tr>
+    </thead>
+    @foreach (var docter in Model.Data)
+    {
+        <tbody>
+            <tr>
+                <td scope="row">@docter.Name</td>
+                <td scope="row">@docter.Surname</td>
+                <td scope="row">@docter.Specialty</td>
+                <td scope="row">@docter.Expirience</td>
+                <td scope="row">@docter.CountOfPatients</td>
+                <td scope="row">@docter.Role</td>
+                <td scope="row">
+                    @Html.ActionLink("Edit", "Edit", new { id = docter.Id }, new { @class = "btn btn-secondary" })
+                    @Html.ActionLink("Delete", "Delete", new { id = docter.Id }, new { @class = "btn btn-secondary" })
+                </td>
+            </tr>
+
+        </tbody>
+    }
+</table>
+@if (Model.PageInfo.TotalItems > Model.PageInfo.PageSize)
+{
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+            @Html.PageLinks(Model.PageInfo, x => $"javascript:searchDoctors({x})")
+        </ul>
+    </nav>
+}
+
+

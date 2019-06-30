@@ -1,0 +1,28 @@
+﻿@using Hospital.BusinessLogic.Pagination;
+@using Hospital.Web.Helpers
+@using Hospital.BusinessLogic.ViewModels
+@model PaginationViewModel<PatientViewModel>
+@{
+    Layout = null;
+}
+@foreach (var patient in Model.Data)
+{
+
+    <div class="card text-center d-inline-block m-2" style="width: 16rem;">
+        <div class="card-body">
+            <h6 class="card-title">Карта пациента: @patient.Id</h6>
+            <p class="card-text"><h5>@patient.Name  @patient.Surname </h5>Дата рождения @patient.DateOfBirth.ToShortDateString()</p>
+            @Html.ActionLink("История болезни", "ShowDetails", new { @class = "btn btn-primary", @id = patient.Id })
+        </div>
+    </div>
+}
+
+@if (Model.PageInfo.TotalItems > Model.PageInfo.PageSize)
+{
+
+    <nav class="d-flex justify-content-center" >
+        <ul class="pagination">
+        @Html.PageLinks(Model.PageInfo, x => $"javascript:searchPatients({x})")
+        </ul>
+    </nav>
+}

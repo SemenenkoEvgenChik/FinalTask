@@ -1,0 +1,13 @@
+﻿@using Hospital.BusinessLogic.Models.ViewModels
+@model EstablishDiagnosisViewModel
+
+@using (Html.BeginForm("EstablishDiagnosis", "Doctor", FormMethod.Post))
+{
+    <div class="item">
+        <label>Диагноз</label>
+        @Html.EditorFor(m => m.InitialDiagnosis)
+    </div>
+
+    <input type="submit" value="Add" />
+}
+

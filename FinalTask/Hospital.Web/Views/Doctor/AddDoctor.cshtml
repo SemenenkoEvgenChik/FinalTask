@@ -1,0 +1,43 @@
+﻿@model Hospital.BusinessLogic.ViewModels.DoctorViewModel
+@{
+    ViewBag.Title = "AddDoctor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddDoctor</h2>
+
+
+@using (Html.BeginForm("AddDoctor", "Doctor", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <div class="item">
+        <label>Name</label>
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="item">
+        <label>Surname</label>
+        @Html.EditorFor(m => m.Surname)
+        @Html.ValidationMessageFor(m => m.Surname)
+    </div>
+    <div class="item">
+        <label>Expirience</label>
+        @Html.EditorFor(m => m.Expirience)
+        @Html.ValidationMessageFor(m => m.Expirience)
+
+    </div>
+
+    <div class="item">
+        @Html.EnumDropDownListFor(m => m.Specialty, "Select specialty", new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(m => m.Specialty)
+    </div>
+    <div class="item">
+        <label>Email</label>
+        @Html.EditorFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+
+    </div>
+    <input type="submit" value="Отправить" />
+
+}

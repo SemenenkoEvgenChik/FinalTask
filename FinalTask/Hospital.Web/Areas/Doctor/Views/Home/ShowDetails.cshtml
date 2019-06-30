@@ -1,0 +1,198 @@
+﻿@using Hospital.BusinessLogic.ViewModels;
+@using Hospital.BusinessLogic.Models.ViewModels
+@using Hospital.BusinessLogic.ViewEnums
+
+@model PatientProfileViewModel
+@{
+    ViewBag.Title = "ShowDetails";
+    Layout = "~/Areas/Doctor/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex flex-row justify-content-center align-items-center m-4" style="height: 100px;">
+    <div>
+        <h1 class="text-center">@Model.Name @Model.Surname</h1>
+        <h2 class="text-center">@Model.DateOfBirth.ToShortDateString()</h2>
+    </div>
+</div>
+
+<hr align="center" size="2" color="#ff0000" />
+@if (Model.HistoryIllnesses is null || Model.HistoryIllnesses.Count == 0)
+{
+    <h3>No history.</h3>
+}
+else
+{
+    foreach (HistoryIllnessViewModel illness in Model.HistoryIllnesses)
+    {
+        <div class="card  d-inline-block m-1" style="width: 34rem;">
+            <div class="card-body">
+                <h4 class="card-title text-center">История болезни</h4>
+                @if (String.IsNullOrEmpty(illness.FinalDiagnosis) && (!String.IsNullOrEmpty(illness.InitialDiagnosis)))
+                {
+                    @Html.ActionLink("Скачать справку", "CreateCertificate", new { area = "Doctor", id=illness.Id}, new { @class = "btn btn-light w-100 disabled" })
+                }
+                else
+                {
+                    @Html.ActionLink("Скачать справку", "CreateCertificate", new { area = "Doctor", id=illness.Id }, new { @class = "btn btn-light  w-100 "})
+                }
+
+                <div class="card-text">
+                    <p>Диагноз: @(illness.InitialDiagnosis ?? "Доктор еще не утановил диагноз")</p>
+                    <p>Дата поступления: @(illness.ReceiptDate.Equals(DateTime.MinValue) ? "-- / -- / --" : illness.ReceiptDate.ToString())</p>
+                    <p>Результат лечения: @(illness.FinalDiagnosis ?? "На лечении")</p>
+                    <p>Дата выписки: @(illness.DishargeDate.Equals(DateTime.MinValue) ? "-- / -- / --" : illness.DishargeDate.ToString())</p>
+                    <p>Лечащий доктор: @illness.Doctor.Name @illness.Doctor.Surname @illness.Doctor.Specialty</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="button-box col-lg-6 col-xs-6 ">
+                            @if (String.IsNullOrEmpty(illness.InitialDiagnosis))
+                            {
+                                <button type="button" class="btn btn-dark w-100" data-toggle="modal" data-target="#establishDiagnosis" onclick="$('#Id').val('@illness.Id')">
+                                    Установить диагноз
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary w-100" data-toggle="modal" data-target="#establishDiagnosis" onclick="$('#Id').val('@illness.Id')" disabled>
+                                    Установить диагноз
+                                </button>
+
+                            }
+                        </div>
+                        <div class="button-box col-lg-6 col-xs-6">
+
+                            @if (String.IsNullOrEmpty(illness.FinalDiagnosis) && (!String.IsNullOrEmpty(illness.InitialDiagnosis)))
+                            {
+                                <button type="button" class="btn btn-dark w-100" data-toggle="modal" data-target="#eppointTreatment" onclick="$('#HistoryIllnessId').val('@illness.Id')">
+                                    Назначить лечение
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary w-100" data-toggle="modal" data-target="#eppointTreatment" onclick="$('#HistoryIllnessId').val('@illness.Id')" disabled>
+                                    Назначить лечение
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="button-box col-lg-6 col-xs-6 ">
+                            @Html.ActionLink("История лечения", "PatientCard", new { area = "Doctor", HistoryIllnessId = illness.Id }, new { @class = "btn btn-dark w-100" })
+                        </div>
+                        <div class="button-box col-lg-6 col-xs-6">
+                            @if (String.IsNullOrEmpty(illness.FinalDiagnosis) && (!String.IsNullOrEmpty(illness.InitialDiagnosis)))
+                            {
+                                <button type="button" class="btn btn-dark w-100" data-toggle="modal" data-target="#dischargeFromHospital" onclick="$('#Id2').val('@illness.Id')">
+                                    Выписать больного
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary w-100" data-toggle="modal" data-target="#dischargeFromHospital" onclick="$('#Id2').val('@illness.Id')" disabled>
+                                    Выписать больного
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<div class="modal fade" id="establishDiagnosis" tabindex="-1" role="dialog" aria-labelledby="establishDiagnosis" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("EstablishDiagnosis", "Home", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="establishDiagnosisLabel">Установите диагноз</h5>
+                    <button type="button" class="close w-auto" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-body" class="modal-body">
+
+                    <input type="hidden" id="Id" name="Id" />
+                    <input type="hidden" id="PatientId" name="PatientId" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="comment">Диагноз:</label>
+                        <textarea class="form-control" rows="3" id="InitialDiagnosis" name="InitialDiagnosis"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-secondary w-auto" value="Подтвердить диагноз!" />
+                    <button type="button" class="btn btn-secondary w-auto" data-dismiss="modal">Закрыть</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="eppointTreatment" tabindex="-1" role="dialog" aria-labelledby="eppointTreatment" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("AddMedication", "Home", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eppointTreatmentLabel">Назначить лечение</h5>
+                    <button type="button" class="close w-auto" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-body" class="modal-body">
+                    <input type="hidden" id="HistoryIllnessId" name="HistoryIllnessId" />
+                    <input type="hidden" id="PatientId" name="PatientId" value="@Model.Id" />
+
+                    <div class="form-group">
+                        <textarea class="form-control" rows="2" id="Operations" name="Operations" placeholder="Операции"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="2" id="Procedures" name="Procedures" placeholder="Процедуры"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" cols="100" id="ProceduresDescription" name="ProceduresDescription" placeholder="Описание процедуры"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-primary" type="submit" value="Добавить" />
+                    <button type="button" class="btn btn-secondary w-auto" data-dismiss="modal">Закрыть</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dischargeFromHospital" tabindex="-1" role="dialog" aria-labelledby="dischargeFromHospital" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("DischargeFromHospital", "Home", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dischargeFromHospitalLabel">Выписка</h5>
+                    <button type="button" class="close w-auto" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-body" class="modal-body">
+
+                    <input type="hidden" id="Id2" name="Id" />
+                    <div class="form-group">
+                        <label for="comment">Результат лечения:</label>
+                        <textarea class="form-control" rows="3" id="FinalDiagnosis" name="FinalDiagnosis"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary w-auto" value="Выписать" />
+                    <button type="button" class="btn btn-secondary w-auto" data-dismiss="modal">Закрыть</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Areas/Doctor/Scripts/doctor.js"></script>
+
